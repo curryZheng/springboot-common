@@ -20,6 +20,7 @@ import com.ygxc.aqjy.common.utils.Assert;
 import com.ygxc.aqjy.common.utils.Assist;
 import com.ygxc.aqjy.dao.AuthDao;
 import com.ygxc.aqjy.req.user.UserLoginReq;
+import com.ygxc.aqjy.rsp.user.PrincipalDto;
 import com.ygxc.aqjy.rsp.user.UserLoginDto;
 import com.ygxc.aqjy.service.UserService;
 import com.ygxc.aqjy.shiro.utils.ShiroUtils;
@@ -41,11 +42,8 @@ public class UserRealm  extends AuthorizingRealm{
 	    //shiro的权限信息配置
 	    @Override
 	    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-	        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-	      
-	        
-	        UserLoginDto userLoginDto = (UserLoginDto) principals.getPrimaryPrincipal();
-	    
+	        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();	      	        
+	        PrincipalDto userLoginDto = (PrincipalDto) principals.getPrimaryPrincipal();	    
 	        Assert.notBlank(userLoginDto.getRoleId(), "roleId cannot be blank");	
 			Set<String> permissions = new HashSet<String>();		
 			List<String> list = authDao.queryRoleAuthUrlList(userLoginDto.getRoleId());
@@ -65,14 +63,18 @@ public class UserRealm  extends AuthorizingRealm{
 	    @Override
 	    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 	       String username = (String) token.getPrincipal();
-	        UserLoginDto user = userService.findUserByLogin(new UserLoginReq(username)).getData();
-	        if (user == null) {
+	        UserLoginDto loginDto = userService.findUserByLogin(new UserLoginReq(username)).getData();
+	        if (loginDto == null) {
 	            return null;
 	        }
+	        //缓存中得实体对象
+	        PrincipalDto shiroUserInfoDto=  new PrincipalDto();
+	        fillCreate(shiroUserInfoDto,loginDto);
+	        
 	        //SimpleAuthenticationInfo还有其他构造方法，比如密码加密算法等，感兴趣可以自己看
 	        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-	        		user,                      //表示凭证，可以随便设，跟token里的一致就行
-	                user.getPassword(),   //表示密钥如密码，你可以自己随便设，跟token里的一致就行
+	        		shiroUserInfoDto,                      //表示凭证，可以随便设，跟token里的一致就行
+	        		loginDto.getPassword(),   //表示密钥如密码，你可以自己随便设，跟token里的一致就行
 	                getName()
 	        );
 
@@ -93,6 +95,14 @@ public class UserRealm  extends AuthorizingRealm{
 		@Override
 		protected Object getAuthorizationCacheKey(PrincipalCollection principals) {
 			return ShiroUtils.getSessionId();
+		}
+		
+		protected void fillCreate(PrincipalDto dto, UserLoginDto mainDto) {
+			dto.setId(mainDto.getId());
+			dto.setUsername(mainDto.getUsername());
+			dto.setName(mainDto.getName());
+			dto.setUserNo(mainDto.getUserNo());
+			dto.setRoleId(mainDto.getRoleId());
 		}
 	   
 }

@@ -41,4 +41,11 @@ public interface AuthDao extends BaseMapper<AuthEntity> {
 	 */
 	List<AuthTreeForRoleDto> queryAuthTreeForRoleList(String roleId);
 
+	/**
+	 * 根据URL查询权限信息
+	 * @param url
+	 * @return
+	 */
+	AuthEntity selectOneByUrl(String url);
+
 }

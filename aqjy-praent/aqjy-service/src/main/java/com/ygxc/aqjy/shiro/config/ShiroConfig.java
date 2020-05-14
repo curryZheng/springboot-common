@@ -6,20 +6,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.Filter;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
-import org.apache.shiro.web.servlet.SimpleCookie;
 import org.crazycake.shiro.IRedisManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisClusterManager;
@@ -31,12 +27,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-
 import com.ygxc.aqjy.common.constant.BConst;
 import com.ygxc.aqjy.common.exception.YgxcAqjyServiceException;
 import com.ygxc.aqjy.common.utils.Assert;
 import com.ygxc.aqjy.common.utils.BeanUtils;
-import com.ygxc.aqjy.framework.redis.properties.RedisProperties;
+import com.ygxc.aqjy.framework.core.redis.RedisProperties;
 import com.ygxc.aqjy.shiro.ShiroOptions;
 import com.ygxc.aqjy.shiro.realm.AdminRealm;
 import com.ygxc.aqjy.shiro.realm.CustomModularRealmAuthenticator;
@@ -126,22 +121,6 @@ public class ShiroConfig {
 		}
 	}
 
-//    //设置cookie
-//    @Bean
-//    public SimpleCookie rememberMeCookie(){
-//        //这个参数是cookie的名称,对应前端的checkbox的name=rememberMe
-//        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-//        //记住我cookie生效时间3个小时(单位秒)
-//        simpleCookie.setMaxAge(10800);
-//        return simpleCookie;
-//    }
-//    //cookie管理对象,记住我功能
-//    @Bean
-//    public CookieRememberMeManager rememberMeManager(){
-//        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-//        cookieRememberMeManager.setCookie(rememberMeCookie());
-//        return cookieRememberMeManager;
-//    }
 	/**
 	 * 密码匹配凭证管理器（密码加密需要此配置）
 	 * 
@@ -163,21 +142,6 @@ public class ShiroConfig {
 		authorizationAttributeSourceAdvisor.setSecurityManager(securityManager(matcher, sessionManager, redisCacheManager));
 		return authorizationAttributeSourceAdvisor;
 	}
-
-	/**
-	 * shiro SessionManager
-	 * 
-	 * @return
-	 */
-//	@Bean
-//	@ConditionalOnMissingBean
-//	public DefaultSessionManager sessionManager() {
-//		DefaultSessionManager sessionManager = BeanUtils.newInstance(ShiroOptions.SESSION_MANAGER_CLASS);
-//		sessionManager.setGlobalSessionTimeout(18000);
-//		sessionManager.setSessionValidationSchedulerEnabled(true);
-//		sessionManager.setDeleteInvalidSessions(true);
-//		return sessionManager;
-//	}
 
 	@Bean
 	@ConditionalOnMissingBean

@@ -5,7 +5,7 @@ public class RConst {
     /**
      * 处理成功时的code
      */
-	public static final int SUCCESS_CODE = 0;
+	public static final Integer SUCCESS_CODE = 0;
 
     /**
      * 处理成功时的info

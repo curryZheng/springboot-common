@@ -10,24 +10,24 @@
 	<!-- 查询操作日志列表条件 -->
 	<sql id="queryOpLogListWhere">
 		<where>
-			t.is_delete = 0 and t.op_time &gt;= #{opTimeBegin} and t.op_time &lt; #{opTimeEnd}
-			<if test="fnId != null and fnId != ''">
-				and t.fn_id = #{fnId}
+			t.is_delete = 0  <!--and t.op_time &gt;= #{req.opTimeBegin} and t.op_time &lt; #{req.opTimeEnd}  -->
+			<if test="req.fnId != null and req.fnId != ''">
+				and t.fn_id = #{req.fnId}
 			</if>
-			<if test="fnCode != null and fnCode != ''">
-				and t.fn_code = #{fnCode}
+			<if test="req.fnCode != null and req.fnCode != ''">
+				and t.fn_code = #{req.fnCode}
 			</if>
-			<if test="fnUrlKeyword != null and fnUrlKeyword != ''">
-				and t.fn_url like concat('%', #{fnUrlKeyword}, '%')
+			<if test="req.fnUrlKeyword != null and req.fnUrlKeyword != ''">
+				and t.fn_url like concat('%', #{req.fnUrlKeyword}, '%')
 			</if>
-			<if test="result != null">
-				and t.result = #{result}
+			<if test="req.result != null">
+				and t.result = #{req.result}
 			</if>
-			<if test="opUserId != null and opUserId != ''">
-				and t.op_user_id = #{opUserId}
+			<if test="req.opUserId != null and req.opUserId != ''">
+				and t.op_user_id = #{req.opUserId}
 			</if>
-			<if test="reqKeyword != null and reqKeyword != ''">
-				and t.req like concat('%', #{reqKeyword}, '%')
+			<if test="req.reqKeyword != null and req.reqKeyword != ''">
+				and t.req like concat('%', #{req.reqKeyword}, '%')
 			</if>
 		</where>
 	</sql>

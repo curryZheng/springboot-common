@@ -5,7 +5,6 @@ import com.ygxc.aqjy.common.structure.RequestHead;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-
 @ApiModel("创建操作日志req")
 public class OpLogCreateReq extends RequestHead {
 	private static final long serialVersionUID = 1L;
@@ -35,13 +34,13 @@ public class OpLogCreateReq extends RequestHead {
     private Integer result;
     
     @ApiModelProperty("操作人ID")
-	private String userId;
+	private String opUserId;
 	
 	@ApiModelProperty("操作人")
-	private String userName;
+	private String opUserName;
 	
 	@ApiModelProperty("员工编号")
-	private String userNo;
+	private String opUserNo;
 
 	public Timestamp getOpTime() {
 		return opTime;
@@ -111,27 +110,29 @@ public class OpLogCreateReq extends RequestHead {
 		return serialVersionUID;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getOpUserId() {
+		return opUserId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setOpUserId(String opUserId) {
+		this.opUserId = opUserId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getOpUserName() {
+		return opUserName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setOpUserName(String opUserName) {
+		this.opUserName = opUserName;
 	}
 
-	public String getUserNo() {
-		return userNo;
+	public String getOpUserNo() {
+		return opUserNo;
 	}
 
-	public void setUserNo(String userNo) {
-		this.userNo = userNo;
+	public void setOpUserNo(String opUserNo) {
+		this.opUserNo = opUserNo;
 	}
+
+	
 }

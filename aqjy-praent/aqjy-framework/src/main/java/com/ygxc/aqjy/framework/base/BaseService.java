@@ -1,10 +1,8 @@
 package com.ygxc.aqjy.framework.base;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ygxc.aqjy.common.constant.RConst;
 import com.ygxc.aqjy.common.enumeration.MsgEnum;
@@ -41,7 +39,7 @@ public class BaseService  {
 		return BeanConvertUtils.convertBean(from, toClass);
 	}
 	
-	protected void startPage(Long  current, Long size) {
+	protected void startPage(int  current, int size) {
 		this.page=new Page<Integer>(current, size);
 	}
 	
@@ -58,8 +56,6 @@ public class BaseService  {
 	protected <T> List<T> convertBeanList(List<?> fromList, Class<T> toClass) {
 		return BeanConvertUtils.convertBeanList(fromList, toClass);
 	}
-	
-	
 	
 	/**
 	   *     默认返回成功结果集
@@ -93,11 +89,34 @@ public class BaseService  {
 	 */
 	protected <T> PageR<List<T>> packPageResult(Page<?> page, List<T> list) {
 		PageR<List<T>> pageR = new PageR<List<T>>();
+		if(page!=null) {
+			pageR.setCurrent(page.getCurrent());
+			pageR.setPageSize(page.getSize());
+			pageR.setTotal(page.getTotal());
+			pageR.setData(list);
+		}else {
+			pageR.setCurrent(this.page.getCurrent());
+			pageR.setPageSize(this.page.getSize());
+			pageR.setTotal(this.page.getTotal());
+			pageR.setData(list);
+		}
 		
-		pageR.setCurrent(page.getCurrent());
-		pageR.setPageSize(page.getSize());
-		pageR.setTotal(page.getTotal());
+		return pageR;
+	}
+	
+	/**
+	 * 封装分页结果集
+	 * @param list
+	 * @return
+	 */
+	protected <T> PageR<List<T>> packPageResult( List<T> list) {
+		PageR<List<T>> pageR = new PageR<List<T>>();
+		pageR.setCurrent(this.page.getCurrent());
+		pageR.setPageSize(this.page.getSize());
+		pageR.setTotal(this.page.getTotal());
 		pageR.setData(list);
+	
+		
 		return pageR;
 	}
 

@@ -20,6 +20,7 @@
      <swagger.version>2.9.2</swagger.version>
      <mysql.version>8.0.11</mysql.version>
      <druid.version>1.1.14</druid.version>
+     <poi.version>4.1.1</poi.version>
      <mybatisplus.version>3.1.0</mybatisplus.version>
   </properties>
 
@@ -31,7 +32,6 @@
 	  <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>${lombok.version}</version>
       </dependency>
       <dependency>
 			<groupId>org.crazycake</groupId>

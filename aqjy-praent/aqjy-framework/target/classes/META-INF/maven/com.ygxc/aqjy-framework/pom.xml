@@ -7,11 +7,7 @@
     <artifactId>aqjy-praent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  
   <artifactId>aqjy-framework</artifactId>
-  
-  <name>aqjy-framework</name>
-  <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -46,10 +42,21 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
+	     <dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>${poi.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		      <version>${poi.version}</version>
+		</dependency>
         <dependency>
 			  <groupId>org.apache.shiro</groupId>
 			  <artifactId>shiro-spring</artifactId>
 			  <version>1.4.0</version>
 		</dependency>
+	
   </dependencies>
 </project>

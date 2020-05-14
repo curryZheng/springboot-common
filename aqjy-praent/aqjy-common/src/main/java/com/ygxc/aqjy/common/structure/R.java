@@ -1,7 +1,7 @@
 package com.ygxc.aqjy.common.structure;
 
+import com.ygxc.aqjy.common.constant.BConst;
 import com.ygxc.aqjy.common.enumeration.MsgEnum;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -29,32 +29,32 @@ public class R<T> {
 
     }
 
-    public static R error(int code, String info) {
-        R r = new R();
+    public static<T>  R <T> error(int code, String info) {
+        R<T> r = new R<T>();
         r.code = code;
         r.info = info;
         return r;
     }
 
-    public static R error(MsgEnum msg) {
-        R r = new R();
+    public static <T> R<T> error(MsgEnum msg) {
+        R<T> r = new R<T>();
         r.code = msg.getVal();
         r.info = msg.getDescription();
         return r;
     }
-    public static R error(String msg) {
+    public static <T> R<T> error(String msg) {
         return error(RConst.ERROR_CODE, msg);
     }
 
-    public static R error() {
+    public static <T> R <T> error() {
         return error("未知异常");
     }
 
-    public static R error(Throwable e) {
+    public static <T> R <T> error(Throwable e) {
         return R.error(e.getMessage());
     }
 
-    public static R validError(String msg) {
+    public static <T> R <T> validError(String msg) {
         return error(RConst.BAD_REQUEST_ERROR_CODE, msg);
     }
 
@@ -65,6 +65,24 @@ public class R<T> {
         }
     }
 
+    /**
+	 * 是否操作成功，即code = SUCCESS
+	 * 
+	 * @return
+	 */
+	public boolean judgeSuccess() {
+		return RConst.SUCCESS_CODE.equals(code);
+	}
+    
+	/**
+	 * 是否操作成功，即code = SUCCESS
+	 * @return true：1；false：0；
+	 */
+	public int judgeSuccessInt() {
+		return judgeSuccess() ? BConst.ONE : BConst.ZERO;
+	}
+	
+	
     public static <T> R<T> ok() {
         R<T> r = new R<>();
         r.code = RConst.SUCCESS_CODE;

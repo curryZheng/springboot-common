@@ -30,27 +30,27 @@ public class YgxcAqjyServiceException extends YgxcBusinessException {
 	public YgxcAqjyServiceException(String message, Throwable cause,
                                  boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public YgxcAqjyServiceException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public YgxcAqjyServiceException(String message,String...msgArgs) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public YgxcAqjyServiceException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public YgxcAqjyServiceException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public MsgEnum getMsgEnum() {

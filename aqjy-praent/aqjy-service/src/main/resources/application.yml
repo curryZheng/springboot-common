@@ -63,3 +63,7 @@ redis:
       min-idle: 0
 #连接超时时间（毫秒）
   timeout: 1000
+  
+#操作日志开关
+oplogSwitch: true
+

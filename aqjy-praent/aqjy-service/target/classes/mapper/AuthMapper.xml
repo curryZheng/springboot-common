@@ -41,4 +41,14 @@
 		where t.is_delete = 0
 		order by t.sort, t.create_time
 	</select>
+	
+	<!-- 根据接口url查询权限信息 -->
+	<select id="selectOneByUrl" resultMap="BaseMap">
+	  select 
+	   t.*
+	  from 
+	    t_auth t
+	  where t.is_delete = 0
+	  and t.url=#{url}
+	</select>
 </mapper>
