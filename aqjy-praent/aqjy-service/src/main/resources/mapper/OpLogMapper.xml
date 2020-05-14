@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 操作日志mapper -->
+<mapper namespace="com.ygxc.aqjy.dao.OpLogDao">
+	<resultMap id="BaseMap" type="com.ygxc.aqjy.entity.oplog.OpLogEntity"/>
+	<parameterMap id="BaseMap" type="com.ygxc.aqjy.entity.oplog.OpLogEntity"/>
+	
+	<!-- 查询操作日志列表条件 -->
+	<sql id="queryOpLogListWhere">
+		<where>
+			t.is_delete = 0 and t.op_time &gt;= #{opTimeBegin} and t.op_time &lt; #{opTimeEnd}
+			<if test="fnId != null and fnId != ''">
+				and t.fn_id = #{fnId}
+			</if>
+			<if test="fnCode != null and fnCode != ''">
+				and t.fn_code = #{fnCode}
+			</if>
+			<if test="fnUrlKeyword != null and fnUrlKeyword != ''">
+				and t.fn_url like concat('%', #{fnUrlKeyword}, '%')
+			</if>
+			<if test="result != null">
+				and t.result = #{result}
+			</if>
+			<if test="opUserId != null and opUserId != ''">
+				and t.op_user_id = #{opUserId}
+			</if>
+			<if test="reqKeyword != null and reqKeyword != ''">
+				and t.req like concat('%', #{reqKeyword}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<!-- 查询操作日志列表 -->
+	<select id="queryOpLogList" resultMap="BaseMap">
+		select t.* from t_op_log t
+		<include refid="queryOpLogListWhere"/>
+		order by t.op_time desc
+	</select>
+	
+	<!-- 查询导出的操作日志列表 -->
+	<select id="queryExportOpLogList" 
+		resultType="com.ygxc.aqjy.rsp.oplog.OpLogExcelDto">
+		select t.op_time, t.fn_name, t.result, t.op_user_no, t.op_user_name 
+		from t_op_log t
+		<include refid="queryOpLogListWhere"/>
+		order by t.op_time desc
+	</select>
+</mapper>
