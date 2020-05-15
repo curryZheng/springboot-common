@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import com.ygxc.aqjy.common.constant.BConst;
 import com.ygxc.aqjy.common.exception.YgxcBusinessException;
 import com.ygxc.aqjy.common.utils.Assist;
@@ -15,7 +14,6 @@ import com.ygxc.aqjy.framework.core.poi.constant.PoiType;
 import com.ygxc.aqjy.framework.core.poi.constant.TableTheme;
 import com.ygxc.aqjy.framework.core.poi.interfaces.IWriteDataCellHandle;
 import com.ygxc.aqjy.framework.core.poi.interfaces.IWriteDataFetch;
-
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
@@ -140,6 +138,7 @@ public class ExcelExportClient<T> {
             	//数据提取索引+1
             	fetchIndex++;
 			}
+       
 
             //导出
             workbook.write(outputStream);

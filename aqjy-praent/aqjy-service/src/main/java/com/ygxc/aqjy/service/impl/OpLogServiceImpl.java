@@ -77,6 +77,8 @@ public class OpLogServiceImpl extends BaseService implements OpLogService {
 		String fileNmae = "opLog_" + DateUtil.format(new Date(), "yyyyMMdd")+".xls";
 		String colParams = "操作时间, opTimeStr, 操作人, opUserName,功能名称, fnName,结果, resultStr,员工编号, opUserNo";
 		
+		
+		
 		ExcelExportUtils.write(ServeletUtils.getOutputStream(fileNmae)
 				, new IWriteDataFetch<OpLogExcelDto>() {
 					@Override

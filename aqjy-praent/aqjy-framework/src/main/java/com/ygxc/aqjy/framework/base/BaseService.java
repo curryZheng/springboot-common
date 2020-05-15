@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ygxc.aqjy.common.constant.RConst;
 import com.ygxc.aqjy.common.enumeration.MsgEnum;
 import com.ygxc.aqjy.common.exception.YgxcBusinessException;
+import com.ygxc.aqjy.common.structure.IBusinessEntity;
 import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.PageRequest;
 import com.ygxc.aqjy.common.structure.R;
@@ -147,7 +148,7 @@ public class BaseService  {
 		if (count <= 0)
 			throw new YgxcBusinessException(MsgEnum.DB_NOT_FIND_DATA.getDescription());
 	}
-
+	
    /**
     * 结果集成功验证
     * @param <T>

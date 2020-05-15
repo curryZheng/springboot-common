@@ -19,6 +19,7 @@ import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.utils.Assist;
 import com.ygxc.aqjy.common.utils.DateUtil;
 import com.ygxc.aqjy.common.utils.StreamHttpServletRequestWrapper;
+import com.ygxc.aqjy.common.utils.StringUtil;
 import com.ygxc.aqjy.dao.AuthDao;
 import com.ygxc.aqjy.entity.user.AuthEntity;
 import com.ygxc.aqjy.framework.filter.BaseFilter;
@@ -33,7 +34,7 @@ import com.ygxc.aqjy.shiro.utils.ShiroUtils;
  * @email  zhenglei159357@qq.com
  * @date   2020年5月14日
  */
-@ConditionalOnExpression("${oplogSwitch}")
+@ConditionalOnExpression("${oplogSwitch:false}")
 @Component
 public class OpLogFilter extends BaseFilter {
 
@@ -82,7 +83,8 @@ public class OpLogFilter extends BaseFilter {
 				ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(httpServletResponse);
 				
 				//请求参数
-				body = StreamUtils.copyToString(requestWrapper.getInputStream(), Charset.forName("UTF-8"));
+				body = StreamUtils.copyToString(httpServletRequest.getInputStream(), Charset.forName("UTF-8"));
+				
 				
 				chain.doFilter(requestWrapper, responseWrapper);
 				
@@ -91,11 +93,12 @@ public class OpLogFilter extends BaseFilter {
 				//json格式返回值
 				if (contentType.indexOf("application/json") != -1) {
 					rspBody = new String(responseWrapper.getContentAsByteArray());
-					result = toResult(rspBody);
-					responseWrapper.copyBodyToResponse();
-				} else {
+					result = toResult(rspBody);	
+				} 
+				else {
 					result = R.ok();
 				}
+				responseWrapper.copyBodyToResponse();
 			}
 			
 		} catch (YgxcAqjyServiceException e) {
@@ -142,13 +145,16 @@ public class OpLogFilter extends BaseFilter {
 		req.setOpTime(DateUtil.getCurTimestamp());
 		req.setFnUrl(url);
 		req.setReq(body);
-		
-		if (authEntity != null) {
-			req.setFnId(authEntity.getId());
-			req.setFnCode(authEntity.getCode());
-			req.setFnName(authEntity.getName());
-		}
-		
+		if(StringUtil.equals(url, "/login")) {
+			req.setReq("");
+			req.setFnName("系统登陆");
+		}else {
+			if (authEntity != null) {
+				req.setFnId(authEntity.getId());
+				req.setFnCode(authEntity.getCode());
+				req.setFnName(authEntity.getName());
+			}
+		}		
 		if (user != null) {
 			req.setOpUserId(user.getId());
 			req.setOpUserName(user.getUsername());

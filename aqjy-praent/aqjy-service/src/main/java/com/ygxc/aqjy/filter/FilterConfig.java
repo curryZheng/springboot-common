@@ -18,7 +18,7 @@ public class FilterConfig {
 	 * 操作日志过滤器
 	 * @return
 	 */
-	@ConditionalOnExpression("${oplogSwitch}")
+	@ConditionalOnExpression("${oplogSwitch:false}")
 	@Bean("opLogFilterRegistration")
 	public FilterRegistrationBean<OpLogFilter> createOpLogFilterRegistration(OpLogFilter filter) {
 		FilterRegistrationBean<OpLogFilter> bean = new FilterRegistrationBean<OpLogFilter>();

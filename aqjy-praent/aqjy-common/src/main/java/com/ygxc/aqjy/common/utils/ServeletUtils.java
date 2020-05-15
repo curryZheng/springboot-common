@@ -51,6 +51,7 @@ private static Logger logger = LoggerFactory.getLogger(ServeletUtils.class);
 	 * @return
 	 */
 	public static OutputStream getOutputStream(String srcFilePath) {
+		
 		return FileUtils.getOsForDownloadResponse(getResponse(), srcFilePath);
 	}
 	

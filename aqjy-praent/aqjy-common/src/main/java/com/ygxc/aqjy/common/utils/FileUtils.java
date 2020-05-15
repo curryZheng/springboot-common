@@ -45,7 +45,7 @@ public class FileUtils{
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("multipart/form-data");
 			response.setHeader("Access-Control-Expose-Headers", "Content-Disposition,Access-Token,Uid");
-			response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(srcFilePath, "UTF-8"));
+			response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(srcFilePath, "UTF-8"));
 			
 			return response.getOutputStream();
 		} catch (Exception e) {

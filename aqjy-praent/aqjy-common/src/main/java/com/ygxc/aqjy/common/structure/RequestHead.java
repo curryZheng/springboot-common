@@ -28,7 +28,7 @@ public class RequestHead implements Serializable  {
 		this.opUserName = RequestCommParamsHolder.getString("opUserName");
 		this.opUserNo = RequestCommParamsHolder.getString("opUserNo");
 	}
-
+    
 	public String getOpUserId() {
 		return opUserId;
 	}

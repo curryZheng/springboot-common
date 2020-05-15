@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.ygxc.aqjy.common.utils.Assert;
 
+import net.bytebuddy.asm.Advice.This;
+
 
 public class RequestCommParamsHolder {
 	/** 公共请求参数当前线程值 */
@@ -25,6 +27,7 @@ public class RequestCommParamsHolder {
 		}
 		map.put(key, value);
 	}
+	
 	
 	/**
 	 * 取得公共请求参数

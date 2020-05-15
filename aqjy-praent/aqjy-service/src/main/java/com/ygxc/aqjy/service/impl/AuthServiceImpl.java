@@ -8,6 +8,8 @@ import com.ygxc.aqjy.common.exception.YgxcAqjyServiceException;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.structure.RequestHead;
 import com.ygxc.aqjy.common.utils.Assist;
+import com.ygxc.aqjy.common.utils.DateUtil;
+import com.ygxc.aqjy.common.utils.IdUtil;
 import com.ygxc.aqjy.dao.AuthDao;
 import com.ygxc.aqjy.dao.RoleAuthDao;
 import com.ygxc.aqjy.entity.user.AuthEntity;
@@ -21,13 +23,15 @@ import com.ygxc.aqjy.req.user.RoleAuthModifyReq;
 import com.ygxc.aqjy.rsp.user.AuthDto;
 import com.ygxc.aqjy.rsp.user.AuthTreeDto;
 import com.ygxc.aqjy.rsp.user.AuthTreeForRoleDto;
+import com.ygxc.aqjy.rsp.user.PrincipalDto;
 import com.ygxc.aqjy.service.AuthService;
+import com.ygxc.aqjy.shiro.utils.ShiroUtils;
 
 /**
  * 权限service
- * 
- * @author Qiaoxin.Hong
- *
+ * @author curry
+ * @email  zhenglei159357@qq.com
+ * @date   2020年5月15日
  */
 @Service
 public class AuthServiceImpl extends BaseService implements AuthService {
@@ -38,11 +42,20 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 	@Autowired
 	private  RoleAuthDao roleAuthDao;
 
+	/**
+	 * 创建权限
+	 */
 	@Override
 	public R<String> createAuth(AuthCreateReq req) {
-	    throw new YgxcAqjyServiceException(MsgEnum.NO_ACCOUNT_OR_PASSWORD_ERROR);
-		
-		
+		PrincipalDto principalDto = (PrincipalDto)ShiroUtils.getUser();
+		AuthEntity entity=convertBean(req, AuthEntity.class);
+		entity.setId(IdUtil.generateSmsRandomCode());
+		entity.setCreateTime(DateUtil.getCurTimestamp());
+		entity.setUpdateTime(DateUtil.getCurTimestamp());
+		entity.setOpUserId(principalDto.getUserNo());
+		entity.setOpUserName(principalDto.getUsername());
+		authDao.insert(entity);
+		return packResult();
 	}
 
 	@Override
