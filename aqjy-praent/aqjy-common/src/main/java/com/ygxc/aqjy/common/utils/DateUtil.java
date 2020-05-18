@@ -117,8 +117,10 @@ public class DateUtil {
 	 */
 	public static String format(Date date, String pattern) {
 		if (date == null) return null;
+		
 		return getFormatter(pattern).format(date);
 	}
+	
 	
 	/**
 	 * 将字符串转换为日期
