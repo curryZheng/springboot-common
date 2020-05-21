@@ -47,38 +47,35 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 	 */
 	@Override
 	public R<String> createAuth(AuthCreateReq req) {
-		PrincipalDto principalDto = (PrincipalDto)ShiroUtils.getUser();
 		AuthEntity entity=convertBean(req, AuthEntity.class);
-		entity.setId(IdUtil.generateSmsRandomCode());
+		entity.setId(IdUtil.generateUUID());
 		entity.setCreateTime(DateUtil.getCurTimestamp());
 		entity.setUpdateTime(DateUtil.getCurTimestamp());
-		entity.setOpUserId(principalDto.getUserNo());
-		entity.setOpUserName(principalDto.getUsername());
 		authDao.insert(entity);
 		return packResult();
 	}
 
 	@Override
 	public R<Void> modifyAuth(AuthModifyReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<Void> deleteAuth(OperationByIdReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<List<String>> queryRoleAuthCodeList(AuthInfoByRoleIdQueryReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<List<String>> queryRoleAuthUrlList(AuthInfoByRoleIdQueryReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -91,25 +88,25 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 
 	@Override
 	public R<List<AuthTreeDto>> queryAuthTreeList(RequestHead req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<List<AuthTreeForRoleDto>> queryAuthTreeForRoleList(AuthInfoByRoleIdQueryReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<Void> modifyRoleAuth(RoleAuthModifyReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<AuthDto> findAuthByUrl(AuthByUrlFindReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -157,6 +154,7 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 	 * @param id
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private List<String> fetchAllChildAuthId(String id) {
 		List<String> idList = new ArrayList<>();
 		idList.add(id);

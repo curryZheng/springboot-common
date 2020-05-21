@@ -2,6 +2,8 @@ package com.ygxc.aqjy.filter;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Map;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -18,6 +20,7 @@ import com.ygxc.aqjy.common.exception.YgxcAqjyServiceException;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.utils.Assist;
 import com.ygxc.aqjy.common.utils.DateUtil;
+import com.ygxc.aqjy.common.utils.JsonUtil;
 import com.ygxc.aqjy.common.utils.StreamHttpServletRequestWrapper;
 import com.ygxc.aqjy.common.utils.StringUtil;
 import com.ygxc.aqjy.dao.AuthDao;
@@ -68,8 +71,19 @@ public class OpLogFilter extends BaseFilter {
 		boolean exclude = true;
 		
 		try {
+			
+			
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+			//请求头参数赋值
+			PrincipalDto currUserDto= (PrincipalDto) ShiroUtils.getUser();
+			Map<String, Object> bodyMap = JsonUtil.stringToCollect(StreamUtils.copyToString(request.getInputStream(), Charset.forName("UTF-8")));
+            Assist.ifNotNull(currUserDto, action->{
+            	bodyMap.put("opUserName", currUserDto.getUsername());
+            	bodyMap.put("opUserId", currUserDto.getId());
+            	bodyMap.put("opUserNo", currUserDto.getUserNo());
+            });
+			
 			
 			//请求url
 			url = httpServletRequest.getRequestURI();
@@ -79,15 +93,11 @@ public class OpLogFilter extends BaseFilter {
 			if (exclude) {
 				chain.doFilter(request, response);
 			} else {
-				StreamHttpServletRequestWrapper requestWrapper = new StreamHttpServletRequestWrapper(httpServletRequest);
+				StreamHttpServletRequestWrapper requestWrapper = new StreamHttpServletRequestWrapper(httpServletRequest,JsonUtil.toJSONString(bodyMap));
 				ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(httpServletResponse);
-				
 				//请求参数
-				body = StreamUtils.copyToString(httpServletRequest.getInputStream(), Charset.forName("UTF-8"));
-				
-				
+				body = StreamUtils.copyToString(requestWrapper.getInputStream(), Charset.forName("UTF-8"));	
 				chain.doFilter(requestWrapper, responseWrapper);
-				
 				//读取值
 				String contentType = Assist.defaultBlank(responseWrapper.getContentType());
 				//json格式返回值

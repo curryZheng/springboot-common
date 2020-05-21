@@ -1,11 +1,20 @@
 package com.ygxc.aqjy.shiro.utils;
+import java.util.Collection;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.util.ByteSource;
 import com.ygxc.aqjy.common.enumeration.MsgEnum;
 import com.ygxc.aqjy.common.exception.YgxcAqjyServiceException;
+import com.ygxc.aqjy.common.utils.ApplicationContextUtils;
+import com.ygxc.aqjy.common.utils.Assist;
+import com.ygxc.aqjy.rsp.user.PrincipalDto;
 import com.ygxc.aqjy.shiro.CustomToken;
 import com.ygxc.aqjy.shiro.dto.LoginResult;
 
@@ -90,28 +99,28 @@ public class ShiroUtils {
 		return ByteSource.Util.bytes(username).toString();
 	}
 	
-//	/**
-//	 * 踢出用户
-//	 * @param username
-//	 */
-//	public static <T> void kickUser(String username, IUsernameForPrincipal<T> action) {
-//		Assist.notBlank(username, "username cannot be blank");
-//		
-//		SessionDAO sessionDAO = ApplicationContextUtils.getBean(SessionDAO.class);
-//		
-//		//查询当前用户列表
-//		Collection<Session> list = sessionDAO.getActiveSessions();
-//		Assist.forEach(list, session -> {
-//			PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-//			
-//			@SuppressWarnings("unchecked")
-//			T user = (T) principalCollection.getPrimaryPrincipal();
-//			String curUserName = action.getUsername(user);
-//			
-//			//踢出用户
-//			if (username.equals(curUserName)) {
-//				sessionDAO.delete(session);
-//			}
-//		});
-//	}
+	/**
+	 * 踢出用户
+	 * @param username
+	 */
+	public static <T> void kickUser(String username) {
+		Assist.notBlank(username, "username cannot be blank");
+		
+		SessionDAO sessionDAO = ApplicationContextUtils.getBean(SessionDAO.class);
+		
+		//查询当前用户列表
+		Collection<Session> list = sessionDAO.getActiveSessions();
+		Assist.forEach(list, session -> {
+			PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+			
+			@SuppressWarnings("unchecked")
+			PrincipalDto user = (PrincipalDto) principalCollection.getPrimaryPrincipal();
+			String curUserName = user.getUsername();
+			
+			//踢出用户
+			if (username.equals(curUserName)) {
+				sessionDAO.delete(session);
+			}
+		});
+	}
 }

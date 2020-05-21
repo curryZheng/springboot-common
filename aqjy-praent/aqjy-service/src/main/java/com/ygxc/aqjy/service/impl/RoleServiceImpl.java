@@ -33,25 +33,25 @@ public class RoleServiceImpl extends BaseService implements RoleService {
 
 	@Override
 	public R<String> createRole(RoleCreateReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public R<Void> modifyRole(RoleModifyReq req) {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 
 	@Override
 	public R<Void> deleteRole(OperationByIdReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public PageR<List<RoleDto>> queryRoleList(RoleQueryReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

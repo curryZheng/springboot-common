@@ -17,7 +17,7 @@ import com.ygxc.aqjy.shiro.utils.ShiroUtils;
 /**
  * 系统service
  * 
- * @author Qiaoxin.Hong
+ *
  *
  */
 @Service

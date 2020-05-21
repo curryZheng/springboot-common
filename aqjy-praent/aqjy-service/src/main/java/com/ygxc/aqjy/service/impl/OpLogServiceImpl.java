@@ -51,7 +51,7 @@ public class OpLogServiceImpl extends BaseService implements OpLogService {
 
 	@Override
 	public R<String> modifyOpLog(OpLogModifyReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -65,7 +65,7 @@ public class OpLogServiceImpl extends BaseService implements OpLogService {
 
 	@Override
 	public R<OpLogDto> findOpLogById(OperationByIdReq req) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

@@ -70,7 +70,8 @@ public class UserRealm  extends AuthorizingRealm{
 	        //缓存中得实体对象
 	        PrincipalDto shiroUserInfoDto=  new PrincipalDto();
 	        fillCreate(shiroUserInfoDto,loginDto);
-	        
+	        //踢出去已经登陆的相同账户用户
+			ShiroUtils.kickUser(username);
 	        //SimpleAuthenticationInfo还有其他构造方法，比如密码加密算法等，感兴趣可以自己看
 	        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 	        		shiroUserInfoDto,                      //表示凭证，可以随便设，跟token里的一致就行
