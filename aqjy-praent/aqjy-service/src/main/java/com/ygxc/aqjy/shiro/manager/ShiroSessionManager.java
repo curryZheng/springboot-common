@@ -12,7 +12,7 @@ import com.ygxc.aqjy.shiro.ShiroOptions;
 /**
  * shiro session manager
  * 
- * @author Qiaoxin.Hong
+ * 
  *
  */
 public class ShiroSessionManager extends DefaultWebSessionManager {

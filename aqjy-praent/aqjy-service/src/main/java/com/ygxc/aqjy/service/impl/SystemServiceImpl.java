@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.structure.RequestHead;
 import com.ygxc.aqjy.dao.AuthDao;
+import com.ygxc.aqjy.framework.annotation.AqjyValidate;
 import com.ygxc.aqjy.framework.base.BaseService;
 import com.ygxc.aqjy.req.sys.LoginReq;
 import com.ygxc.aqjy.rsp.sys.LoginDto;
@@ -29,6 +30,7 @@ public class SystemServiceImpl extends BaseService implements SystemService {
 	/**
 	 * 登录
 	 */
+	@AqjyValidate
 	@Override
 	public R<LoginDto> login(LoginReq req) {
 		//登录

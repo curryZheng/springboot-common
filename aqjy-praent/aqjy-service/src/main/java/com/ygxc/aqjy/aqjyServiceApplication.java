@@ -21,6 +21,6 @@ public class aqjyServiceApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(aqjyServiceApplication.class, args);
-		 ApplicationContextUtils.setContext(context);
+		ApplicationContextUtils.setContext(context);
 	}
 }
