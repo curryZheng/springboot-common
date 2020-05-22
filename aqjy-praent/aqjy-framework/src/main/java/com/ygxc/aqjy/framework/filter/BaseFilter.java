@@ -4,10 +4,14 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ygxc.aqjy.common.utils.Assist;
+import com.ygxc.aqjy.common.utils.ServeletUtils;
 import com.ygxc.aqjy.common.utils.SocketUtils;
+import com.ygxc.aqjy.common.utils.StringUtil;
 
 
 /**
@@ -28,6 +32,10 @@ public abstract class BaseFilter  implements Filter {
 	 * @return
 	 */
 	protected boolean isExclude(String url) {
+		HttpServletRequest request = ServeletUtils.getRequest();
+		if(StringUtil.equals(request.getMethod().toString(), "GET")) {
+			return true;
+		}
 		return SocketUtils.includeUrl(url, excludeUrlList);
 	}
 	

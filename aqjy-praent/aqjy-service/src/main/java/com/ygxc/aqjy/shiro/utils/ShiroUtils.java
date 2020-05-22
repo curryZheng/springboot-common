@@ -1,6 +1,7 @@
 package com.ygxc.aqjy.shiro.utils;
+import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -111,9 +112,7 @@ public class ShiroUtils {
 		//查询当前用户列表
 		Collection<Session> list = sessionDAO.getActiveSessions();
 		Assist.forEach(list, session -> {
-			PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-			
-			@SuppressWarnings("unchecked")
+			 PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
 			PrincipalDto user = (PrincipalDto) principalCollection.getPrimaryPrincipal();
 			String curUserName = user.getUsername();
 			
@@ -122,5 +121,26 @@ public class ShiroUtils {
 				sessionDAO.delete(session);
 			}
 		});
+	}
+	
+	/**
+	 * 获取所有在线用户
+	 * @param username
+	 * @return 
+	 */
+	public static List<PrincipalDto> getOnlineUsers() {
+		
+		List<PrincipalDto> dtoList = new ArrayList<PrincipalDto>();
+		SessionDAO sessionDAO = ApplicationContextUtils.getBean(SessionDAO.class);
+		//查询当前用户列表
+		Collection<Session> list = sessionDAO.getActiveSessions();
+		Assist.forEach(list, session -> {
+			PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);	
+			PrincipalDto user = (PrincipalDto) principalCollection.getPrimaryPrincipal();
+			dtoList.add(user);
+		
+		});
+		return dtoList;
+	
 	}
 }

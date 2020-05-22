@@ -65,5 +65,7 @@ redis:
   timeout: 1000
   
 #操作日志开关
-oplogSwitch: true
+oplogSwitch: false
 
+shiro:
+  dev: true

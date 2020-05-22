@@ -70,21 +70,17 @@ public class OpLogFilter extends BaseFilter {
 		R<Void> result = null;
 		boolean exclude = true;
 		
-		try {
-			
-			
+		try {		
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 			//请求头参数赋值
 			PrincipalDto currUserDto= (PrincipalDto) ShiroUtils.getUser();
 			Map<String, Object> bodyMap = JsonUtil.stringToCollect(StreamUtils.copyToString(request.getInputStream(), Charset.forName("UTF-8")));
-            Assist.ifNotNull(currUserDto, action->{
-            	bodyMap.put("opUserName", currUserDto.getUsername());
-            	bodyMap.put("opUserId", currUserDto.getId());
-            	bodyMap.put("opUserNo", currUserDto.getUserNo());
+            Assist.ifNotNull(currUserDto,bodyMap,action->{
+            	bodyMap.put("opUserName", action.getUsername());
+            	bodyMap.put("opUserId", action.getId());
+            	bodyMap.put("opUserNo", action.getUserNo());
             });
-			
-			
 			//请求url
 			url = httpServletRequest.getRequestURI();
 			//验证此url是否排除
@@ -114,6 +110,7 @@ public class OpLogFilter extends BaseFilter {
 		} catch (YgxcAqjyServiceException e) {
 			result = R.error(e.getMsgEnum());
 		} catch (Exception e) {
+			logger.error("fiter_error" ,e);
 			result = R.error();
 		} finally {
 			if (!exclude) {

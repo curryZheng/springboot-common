@@ -12,17 +12,17 @@
 		select t.* from t_user t
 		<where>
 			t.is_delete = 0
-			<if test="name != null and name != ''">
-				and t.name = #{name}
+			<if test="req.name != null and req.name != ''">
+				and t.name = #{req.name}
 			</if>
-			<if test="username != null and username != ''">
-				and t.username = #{username}
+			<if test="req.username != null and req.username != ''">
+				and t.username = #{req.username}
 			</if>
-			<if test="userNo != null and userNo != ''">
-				and t.user_no = #{userNo}
+			<if test="req.userNo != null and req.userNo != ''">
+				and t.user_no = #{req.userNo}
 			</if>
-			<if test="roleId != null and roleId != ''">
-				and t.role_id = #{roleId}
+			<if test="req.roleId != null and req.roleId != ''">
+				and t.role_id = #{req.roleId}
 			</if>
 		</where>
 		order by t.create_time desc

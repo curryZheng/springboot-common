@@ -1,14 +1,15 @@
 package com.ygxc.aqjy.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.req.common.OperationByIdReq;
 import com.ygxc.aqjy.req.user.UserCreateReq;
@@ -17,6 +18,7 @@ import com.ygxc.aqjy.req.user.UserModifyReq;
 import com.ygxc.aqjy.req.user.UserQueryReq;
 import com.ygxc.aqjy.rsp.user.UserDto;
 import com.ygxc.aqjy.rsp.user.UserLoginDto;
+import com.ygxc.aqjy.service.SystemService;
 import com.ygxc.aqjy.service.UserService;
 
 @Api(tags = "用户controller")
@@ -26,6 +28,9 @@ public class UserController {
 	
 	@Autowired
 	private  UserService userService;
+	
+	@Autowired
+	private SystemService systemService;
 	
 	@ApiOperation("创建用户")
 	@PostMapping("createUser")
@@ -58,8 +63,10 @@ public class UserController {
 	}
 	
 	@ApiOperation("查询用户列表")
-	@PostMapping("queryUserList")
-	public R<List<UserDto>> queryUserList(@RequestBody UserQueryReq req) {
+	@GetMapping
+	public PageR<List<UserDto>> queryUserList(UserQueryReq req) {
 		return userService.queryUserList(req);
 	}
+	
+
 }

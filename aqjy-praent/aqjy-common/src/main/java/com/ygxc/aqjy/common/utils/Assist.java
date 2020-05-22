@@ -17,6 +17,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.functors.AndPredicate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -253,6 +254,18 @@ public class Assist {
 			action.accept(obj);
 	}
 
+	/**
+	 * 如果不为null，则执行consumer，否则不做任何事情
+	 * 
+	 * @param <T>
+	 * @param obj
+	 * @param action
+	 */
+	public static <T,K> void ifNotNull(T obj,K objs, Consumer<T> action) {
+		if (obj != null && objs!=null )
+			action.accept(obj);
+	}
+	
 	/**
 	 * 如果不为blank，则执行consumer，否则不做任何事情
 	 * 

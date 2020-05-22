@@ -6,6 +6,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.ygxc.aqjy.common.structure.RConst;
 
@@ -19,10 +20,13 @@ import com.ygxc.aqjy.common.structure.RConst;
  */
 public class ShiroAuthenticationFilter extends AccessControlFilter {
 
+	
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws Exception {
+
 		Subject subject = getSubject(request, response);
+		
 		//是否登录过
         boolean isAuthenticated = subject.isAuthenticated();
         //登录过，进行权限验证

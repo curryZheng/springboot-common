@@ -3,12 +3,14 @@ package com.ygxc.aqjy.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.structure.RequestHead;
 import com.ygxc.aqjy.dao.AuthDao;
 import com.ygxc.aqjy.framework.annotation.AqjyValidate;
 import com.ygxc.aqjy.framework.base.BaseService;
 import com.ygxc.aqjy.req.sys.LoginReq;
+import com.ygxc.aqjy.req.sys.kickUserReq;
 import com.ygxc.aqjy.rsp.sys.LoginDto;
 import com.ygxc.aqjy.rsp.user.PrincipalDto;
 import com.ygxc.aqjy.service.SystemService;
@@ -51,6 +53,25 @@ public class SystemServiceImpl extends BaseService implements SystemService {
 	@Override
 	public R<Void> logout(RequestHead req) {
 		ShiroUtils.logout();
+		return packResult();
+	}
+
+	/**
+	 * 查询所有在线用户
+	 */
+	@Override
+	public R<List<PrincipalDto>> getOnlineUsers() {
+	    List<PrincipalDto> dtoList = ShiroUtils.getOnlineUsers();
+		return packResult(dtoList);
+	}
+
+	/**
+	 * 下线登陆用户
+	 */
+	@AqjyValidate
+	@Override
+	public R<Void> kickUser(@RequestBody kickUserReq req) {
+	    ShiroUtils.kickUser(req.getUsername());
 		return packResult();
 	}
 

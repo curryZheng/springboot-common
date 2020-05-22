@@ -1,6 +1,8 @@
 package com.ygxc.aqjy.service;
 
 import java.util.List;
+
+import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.req.common.OperationByIdReq;
 import com.ygxc.aqjy.req.user.UserCreateReq;
@@ -58,5 +60,5 @@ public interface UserService {
 	 * @param req
 	 * @return
 	 */
-	R<List<UserDto>> queryUserList(UserQueryReq req);
+	PageR<List<UserDto>> queryUserList(UserQueryReq req);
 }

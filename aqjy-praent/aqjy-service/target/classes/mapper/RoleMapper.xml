@@ -12,8 +12,8 @@
 		select t.* from t_role t
 		<where>
 			t.is_delete = 0
-			<if test="name != null and name != ''">
-				and t.name = #{name}
+			<if test="req.name != null and req.name != ''">
+				and t.name = #{req.name}
 			</if>
 		</where>
 		order by t.create_time desc

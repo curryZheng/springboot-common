@@ -3,8 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ygxc.aqjy.common.enumeration.MsgEnum;
-import com.ygxc.aqjy.common.exception.YgxcAqjyServiceException;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.ygxc.aqjy.common.constant.BConst;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.structure.RequestHead;
 import com.ygxc.aqjy.common.utils.Assist;
@@ -13,6 +15,7 @@ import com.ygxc.aqjy.common.utils.IdUtil;
 import com.ygxc.aqjy.dao.AuthDao;
 import com.ygxc.aqjy.dao.RoleAuthDao;
 import com.ygxc.aqjy.entity.user.AuthEntity;
+import com.ygxc.aqjy.entity.user.RoleAuthEntity;
 import com.ygxc.aqjy.framework.base.BaseService;
 import com.ygxc.aqjy.req.common.OperationByIdReq;
 import com.ygxc.aqjy.req.user.AuthByUrlFindReq;
@@ -23,9 +26,7 @@ import com.ygxc.aqjy.req.user.RoleAuthModifyReq;
 import com.ygxc.aqjy.rsp.user.AuthDto;
 import com.ygxc.aqjy.rsp.user.AuthTreeDto;
 import com.ygxc.aqjy.rsp.user.AuthTreeForRoleDto;
-import com.ygxc.aqjy.rsp.user.PrincipalDto;
 import com.ygxc.aqjy.service.AuthService;
-import com.ygxc.aqjy.shiro.utils.ShiroUtils;
 
 /**
  * 权限service
@@ -57,14 +58,19 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 
 	@Override
 	public R<Void> modifyAuth(AuthModifyReq req) {
-		
-		return null;
+		AuthEntity entity = convertBean(req, AuthEntity.class);
+		entity.setUpdateTime(DateUtil.getCurTimestamp());
+		judgeDbHdRow(authDao.updateById(entity));
+		return packResult();
 	}
 
 	@Override
 	public R<Void> deleteAuth(OperationByIdReq req) {
-		
-		return null;
+		AuthEntity entity = convertBean(req, AuthEntity.class);
+		entity.setUpdateTime(DateUtil.getCurTimestamp());
+		entity.setIsDelete(BConst.ONE);
+		judgeDbHdRow(authDao.updateById(entity));
+		return packResult();
 	}
 
 	@Override
@@ -88,8 +94,9 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 
 	@Override
 	public R<List<AuthTreeDto>> queryAuthTreeList(RequestHead req) {
-		
-		return null;
+		List<AuthEntity> list = authDao.selectList(new QueryWrapper<AuthEntity>());
+		List<AuthTreeDto> dtoList = packAuthTreeList(list);
+		return packResult(dtoList);
 	}
 
 	@Override
@@ -98,16 +105,31 @@ public class AuthServiceImpl extends BaseService implements AuthService {
 		return null;
 	}
 
+	/**
+	 *修稿角色权限
+	 */
 	@Override
 	public R<Void> modifyRoleAuth(RoleAuthModifyReq req) {
+		//删除角色的所有权限
+		roleAuthDao.delete(new UpdateWrapper<RoleAuthEntity>().lambda()
+				                                               .eq(RoleAuthEntity::getRoleId, req.getRoleId()));
 		
-		return null;
+		Assist.forEach(req.getAuthIdList(), authId -> {
+			RoleAuthEntity entity = new RoleAuthEntity();
+			entity.setRoleId(req.getRoleId());
+			entity.setAuthId(authId);
+			roleAuthDao.insert(entity);
+		});
+		return packResult();
 	}
 
+	/**
+	 * 根据url查询权限信息
+	 */
 	@Override
 	public R<AuthDto> findAuthByUrl(AuthByUrlFindReq req) {
-		
-		return null;
+		AuthEntity entity = authDao.selectOneByUrl(req.getUrl());
+		return packResult(convertBean(entity, AuthDto.class));
 	}
 
 	/**
