@@ -67,5 +67,9 @@ redis:
 #操作日志开关
 oplogSwitch: false
 
+#shiro
 shiro:
-  dev: true
+   #是否开启shiro开发模式
+   dev: true
+   #是否开启权限验证
+   disabledPermit: false

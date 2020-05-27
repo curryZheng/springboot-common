@@ -23,6 +23,7 @@ import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,7 @@ import com.ygxc.aqjy.common.utils.Assert;
 import com.ygxc.aqjy.common.utils.BeanUtils;
 import com.ygxc.aqjy.framework.core.redis.RedisProperties;
 import com.ygxc.aqjy.shiro.ShiroOptions;
+import com.ygxc.aqjy.shiro.properties.ShiroProperties;
 import com.ygxc.aqjy.shiro.realm.AdminRealm;
 import com.ygxc.aqjy.shiro.realm.CustomModularRealmAuthenticator;
 import com.ygxc.aqjy.shiro.realm.CustomizedModularRealmAuthorizer;
@@ -41,6 +43,19 @@ import com.ygxc.aqjy.shiro.realm.UserRealm;
 @Configuration
 public class ShiroConfig {
 
+	
+	/**
+	 * shiro properties
+	 * @return
+	 */
+	@Bean
+	@ConfigurationProperties(ShiroProperties.SHIRO_PREFIX)
+	@ConditionalOnMissingBean
+	public ShiroProperties createFastShiroProperties() {
+		ShiroProperties properties = new ShiroProperties();
+		return properties;
+	}
+	
 	/**
 	 * shiro核心安全事务管理器
 	 * @param matcher

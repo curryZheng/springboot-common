@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.springframework.beans.factory.annotation.Value;
-
 import com.ygxc.aqjy.common.structure.RConst;
+import com.ygxc.aqjy.shiro.ShiroOptions;
 
 
 
@@ -29,8 +29,16 @@ public class ShiroAuthenticationFilter extends AccessControlFilter {
 		
 		//是否登录过
         boolean isAuthenticated = subject.isAuthenticated();
+        //开发模式不开启验证
+    	if (ShiroOptions.DEV) {
+    		return true;
+    	}
         //登录过，进行权限验证
-        if (isAuthenticated) {    	
+        if (isAuthenticated) {   
+        	//不开启权限验证
+        	if (!ShiroOptions.DISABLED_PERMIT) {
+        		return true;
+        	}
         	HttpServletRequest httpServletRequest = (javax.servlet.http.HttpServletRequest) request;
         	//调用地址
         	String callUrl = httpServletRequest.getRequestURI();
