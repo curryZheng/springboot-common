@@ -60,7 +60,7 @@ public class AuthEntity implements java.io.Serializable, IBusinessEntity {
     private Timestamp updateTime;
 
     /** 是否删除，0：否；1：是 */
-    @TableLogic
+    @TableLogic(value = "0")
     private Integer isDelete;
 
     /** 操作人ID */

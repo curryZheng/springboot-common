@@ -13,8 +13,12 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Parameter;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -40,9 +44,35 @@ public class SwaggerConfig {
 				.apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))// 扫描该包下的所有需要在Swagger中展示的API，@ApiIgnore注解标注的除外
 				.paths(PathSelectors.any())	
 				.build()
+				.securitySchemes(securitySchemes())
+				 .securityContexts(securityContexts())
 				.globalOperationParameters(pars) ;
 	}
 
+	 private List<ApiKey> securitySchemes() {
+	        return new ArrayList<ApiKey>(){{
+	            add(new ApiKey("Authorization", "token", "header"));
+	        }};
+	    }
+	 
+	 private List<SecurityContext> securityContexts() {
+	        return new ArrayList<SecurityContext> (){{
+	            add(SecurityContext.builder()
+	                        .securityReferences(defaultAuth())
+	                        .forPaths(PathSelectors.regex("^(?!register).*$"))
+	                        .build());
+	        }};
+	    }
+	 
+	 private List<SecurityReference> defaultAuth() {
+	        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+	        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+	        authorizationScopes[0] = authorizationScope;
+	        List<SecurityReference> securityReferences=new ArrayList<>();
+	        securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
+	        return securityReferences;
+	    }
+	   
 	private ApiInfo apiInfo() {// 创建API的基本信息，这些信息会在Swagger UI中进行显示
 		return new ApiInfoBuilder().title(swaggerProperties.getTitle())// API
 																			// 标题
