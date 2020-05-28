@@ -2,6 +2,7 @@ package com.ygxc.aqjy.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,8 +66,8 @@ public class AuthController {
 	}
 	
 	@ApiOperation("查询权限树列表")
-	@PostMapping("queryAuthTreeList")
-	public R<List<AuthTreeDto>> queryAuthTreeList(@RequestBody RequestHead req) {
+	@GetMapping("queryAuthTreeList")
+	public R<List<AuthTreeDto>> queryAuthTreeList( RequestHead req) {
 		return authService.queryAuthTreeList(req);
 	}
 	

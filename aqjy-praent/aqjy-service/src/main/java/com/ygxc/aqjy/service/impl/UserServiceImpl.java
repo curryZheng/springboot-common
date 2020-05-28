@@ -7,6 +7,8 @@ import com.ygxc.aqjy.common.constant.BConst;
 import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.utils.DateUtil;
+import com.ygxc.aqjy.common.utils.IdUtil;
+import com.ygxc.aqjy.common.utils.MD5Util;
 import com.ygxc.aqjy.dao.UserDao;
 import com.ygxc.aqjy.entity.user.UserEntity;
 import com.ygxc.aqjy.framework.annotation.AqjyValidate;
@@ -41,6 +43,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 		UserEntity entity=convertBean(req, UserEntity.class);
 		entity.setCreateTime(DateUtil.getCurTimestamp());
 		entity.setUpdateTime(DateUtil.getCurTimestamp());
+		entity.setPassword(MD5Util.MD5Encode(req.getPassword()));
+		entity.setId(IdUtil.generateUUID());
+		userDao.insert(entity);
 		return packResult();
 	}
 

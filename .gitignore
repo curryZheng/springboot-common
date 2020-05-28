@@ -3,3 +3,6 @@
 .classpath
 .project
 .gitgnore
+/dist/
+/node_modules/
+

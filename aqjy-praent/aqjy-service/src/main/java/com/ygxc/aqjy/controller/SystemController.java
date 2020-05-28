@@ -51,7 +51,7 @@ public class SystemController {
 		return systemService.getOnlineUsers();
 	}
 	
-	@ApiOperation("获取所有在线用户")
+	@ApiOperation("踢出在线用户")
 	@PostMapping("kickUser")
 	public R<Void> kickUser(@RequestBody kickUserReq req) {
 		return systemService.kickUser(req);
