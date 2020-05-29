@@ -45,4 +45,10 @@ public interface RoleService {
 	 * @return
 	 */
 	PageR<List<RoleDto>> queryRoleList(RoleQueryReq req);
+
+	/**
+	 * 查询全部角色
+	 * @return
+	 */
+	R<List<RoleDto>> queryRoleAll();
 }

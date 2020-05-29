@@ -94,6 +94,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 		UserEntity entity=convertBean(req, UserEntity.class);
 		entity.setUpdateTime(DateUtil.getCurTimestamp());
 		entity.setIsDelete(BConst.ONE);
+		judgeDbHdRow(userDao.updateById(entity));
 		return packResult();
 	}
 
@@ -102,9 +103,22 @@ public class UserServiceImpl extends BaseService implements UserService {
 	 */
 	@Override
 	public PageR<List<UserDto>> queryUserList(UserQueryReq req) {
-		startPage(req.getPageNum(), req.getPageSize());
+		startPage(req.getCurrent(), req.getPageSize());
 		List<UserEntity> entityList = userDao.queryUserList(req,getPage());
 		return packPageResult(getPage(), convertBeanList(entityList, UserDto.class) );
+	}
+
+	/**
+	 * 重置密码
+	 */
+	@AqjyValidate
+	@Override
+	public R<Void> passwordReset(OperationByIdReq req) {
+		UserEntity entity=convertBean(req, UserEntity.class);
+		entity.setUpdateTime(DateUtil.getCurTimestamp());
+		entity.setPassword(MD5Util.MD5Encode("123456"));
+		judgeDbHdRow(userDao.updateById(entity));
+		return packResult();
 	}
 
 }

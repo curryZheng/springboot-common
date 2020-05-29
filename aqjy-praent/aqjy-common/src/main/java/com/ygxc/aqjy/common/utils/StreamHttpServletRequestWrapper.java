@@ -59,7 +59,7 @@ public class StreamHttpServletRequestWrapper  extends HttpServletRequestWrapper 
     @Override
     public String getParameter(String name) {
         String[] results = parameterMap.get(name);
-        return results[0];
+        return results!=null?results[0]:"";
     }
 
 

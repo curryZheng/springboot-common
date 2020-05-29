@@ -2,6 +2,7 @@ package com.ygxc.aqjy.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,5 +48,11 @@ public class RoleController {
 	@PostMapping("queryRoleList")
 	public PageR<List<RoleDto>> queryRoleList(@RequestBody RoleQueryReq req) {
 		return roleService.queryRoleList(req);
+	}
+	
+	@ApiOperation("查询全部角色")
+	@GetMapping("queryRoleAll")
+	public  R<List<RoleDto>> queryRoleAll() {
+		return roleService.queryRoleAll();
 	}
 }

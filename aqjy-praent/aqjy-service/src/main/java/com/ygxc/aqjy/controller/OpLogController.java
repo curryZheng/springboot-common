@@ -2,6 +2,7 @@ package com.ygxc.aqjy.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.req.common.OperationByIdReq;
 import com.ygxc.aqjy.req.oplog.OpLogCreateReq;
@@ -38,8 +40,8 @@ public class OpLogController {
 	}
 	
 	@ApiOperation("查询操作日志列表")
-	@PostMapping("queryOpLogList")
-	public R<List<OpLogDto>> queryOpLogList(@RequestBody OpLogQueryReq req) {
+	@GetMapping("queryOpLogList")
+	public PageR<List<OpLogDto>> queryOpLogList( OpLogQueryReq req) {
 		return opLogService.queryOpLogList(req);
 	}
 	
@@ -50,8 +52,8 @@ public class OpLogController {
 	}
 	
 	@ApiOperation("导出操作日志")
-	@PostMapping("exportOpLog")
-	public void exportOpLog(@RequestBody OpLogQueryReq req) {
+	@GetMapping("exportOpLog")
+	public void exportOpLog( OpLogQueryReq req) {
 		opLogService.exportOpLog(req);
 	}
 }

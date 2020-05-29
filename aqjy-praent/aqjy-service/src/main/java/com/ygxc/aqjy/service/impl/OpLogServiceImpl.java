@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ygxc.aqjy.common.constant.BConst;
+import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.common.utils.Assist;
 import com.ygxc.aqjy.common.utils.DateUtil;
@@ -56,11 +57,11 @@ public class OpLogServiceImpl extends BaseService implements OpLogService {
 	}
 
 	@Override
-	public R<List<OpLogDto>> queryOpLogList(OpLogQueryReq req) {		
-	    startPage(req.getPageNum(), req.getPageSize());
+	public PageR<List<OpLogDto>> queryOpLogList(OpLogQueryReq req) {		
+	    startPage(req.getCurrent(), req.getPageSize());
 		List<OpLogEntity> list = opLogDao.queryOpLogList(req,getPage());
 		List<OpLogDto> dtoList = convertBeanList(list, OpLogDto.class);
-		return packPageResult(dtoList);
+		return packPageResult(getPage(), dtoList);
 	}
 
 	@Override

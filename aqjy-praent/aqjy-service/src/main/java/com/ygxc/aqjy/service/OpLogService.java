@@ -1,6 +1,8 @@
 package com.ygxc.aqjy.service;
 
 import java.util.List;
+
+import com.ygxc.aqjy.common.structure.PageR;
 import com.ygxc.aqjy.common.structure.R;
 import com.ygxc.aqjy.req.common.OperationByIdReq;
 import com.ygxc.aqjy.req.oplog.OpLogCreateReq;
@@ -35,7 +37,7 @@ public interface OpLogService {
 	 * @param req
 	 * @return
 	 */
-	R<List<OpLogDto>> queryOpLogList(OpLogQueryReq req);
+	PageR<List<OpLogDto>> queryOpLogList(OpLogQueryReq req);
 	
 	/**
 	 * 根据ID查询操作日志

@@ -61,4 +61,11 @@ public interface UserService {
 	 * @return
 	 */
 	PageR<List<UserDto>> queryUserList(UserQueryReq req);
+
+	/**
+	 * 重置密码
+	 * @param req
+	 * @return
+	 */
+	R<Void> passwordReset(OperationByIdReq req);
 }

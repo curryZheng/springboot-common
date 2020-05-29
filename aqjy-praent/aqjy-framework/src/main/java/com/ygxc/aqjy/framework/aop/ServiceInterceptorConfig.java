@@ -1,4 +1,5 @@
 package com.ygxc.aqjy.framework.aop;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.UUID;
@@ -20,6 +21,8 @@ import com.ygxc.aqjy.common.exception.YgxcBusinessException;
 import com.ygxc.aqjy.common.utils.JsonUtil;
 import com.ygxc.aqjy.common.utils.StringUtil;
 import com.ygxc.aqjy.framework.annotation.AqjyValidate;
+
+import io.swagger.annotations.ApiModelProperty;
 /**
  * service拦截器
  * 
@@ -80,15 +83,26 @@ public class ServiceInterceptorConfig {
 	 */
 	private void validate(ProceedingJoinPoint point) throws Throwable {
 		// 参数验证
-		Object[] args = point.getArgs();
+		Object[] args = point.getArgs();	
+		//获取所有属性	
 		if (args != null && args.length != 0) {
 			for (int i = 0; i < args.length; i++) {
 				if(args[i]!=null) {
+					Field [] fileFields= args[i].getClass().getDeclaredFields();
 					// 验证
 					Set<ConstraintViolation<Object>> constraintViolations = validator.validate(args[i]);
-					if (constraintViolations != null && constraintViolations.size() > 0) {
+					if (constraintViolations != null && constraintViolations.size() > 0) {					
 						ConstraintViolation<Object> violation = constraintViolations.iterator().next();
-						throw new YgxcBusinessException(violation.getPropertyPath()+violation.getMessage());
+							for (Field field : fileFields) {
+								if(StringUtil.equals(field.getName(), violation.getPropertyPath().toString())) {
+									//反射获取ApiModelProperty value值
+									ApiModelProperty apiModelProperty = field.getAnnotation(ApiModelProperty.class);
+									if(apiModelProperty!=null) {
+										throw new YgxcBusinessException(apiModelProperty.value()+violation.getMessage());
+									}
+								}
+							}
+						
 					}
 				}		
 			}

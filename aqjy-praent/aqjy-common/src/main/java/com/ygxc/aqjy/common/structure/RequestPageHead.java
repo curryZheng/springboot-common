@@ -14,17 +14,18 @@ public class RequestPageHead extends RequestHead {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty("页码")
-	protected int pageNum = 1;
+	protected int current = 1;
 	
 	@ApiModelProperty("每页数量")
 	protected int pageSize = 10;
 
-	public int getPageNum() {
-		return pageNum;
+
+	public int getCurrent() {
+		return current;
 	}
 
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
+	public void setCurrent(int current) {
+		this.current = current;
 	}
 
 	public int getPageSize() {

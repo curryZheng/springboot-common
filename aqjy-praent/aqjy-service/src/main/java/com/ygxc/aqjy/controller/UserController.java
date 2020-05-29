@@ -68,5 +68,11 @@ public class UserController {
 		return userService.queryUserList(req);
 	}
 	
+	@ApiOperation("密码重置")
+	@PostMapping("passwordReset")
+	public R<Void> passwordReset(@RequestBody OperationByIdReq req) {
+		return userService.passwordReset(req);
+	}
+	
 
 }
