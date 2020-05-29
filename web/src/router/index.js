@@ -38,6 +38,24 @@ let RouteList = [
         component: resolve => require(['~/views/system/onlineUser.vue'], resolve),
       },
       {
+        path: '/opLog',
+        name: 'opLog',
+        meta: {
+          title: '操作日志',
+          keepAlive: false
+        },
+        component: resolve => require(['~/views/system/opLog.vue'], resolve),
+      },
+      {
+        path: '/role',
+        name: 'role',
+        meta: {
+          title: '角色列表',
+          keepAlive: false
+        },
+        component: resolve => require(['~/views/system/role.vue'], resolve),
+      },
+      {
         path: '/personal',
         name: 'Personal',
         meta: {

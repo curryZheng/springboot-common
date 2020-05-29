@@ -1,3 +1,6 @@
+import enumData from '../common/enumData';
+import ygxcUtils from '../common/ygxcUtils';
+
 export default {
 
   setLoginUser:data=> {
@@ -5,6 +8,13 @@ export default {
   },
   getLoginUser: function () {
     return JSON.parse(sessionStorage.getItem('user'))
+  },
+  
+  enumData:()=> {
+    return enumData;
+  },
+  ygxcUtils:()=> {
+    return ygxcUtils;
   },
   hasValInArrayObj: function (arr, key, val) {
     for (let i = 0; i < arr.length; i++) {

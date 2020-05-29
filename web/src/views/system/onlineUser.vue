@@ -1,5 +1,5 @@
 <template>
-  <div class="user-list">
+  <div class='content'> 
     <el-table
         :data="usersData"
         border
@@ -23,7 +23,6 @@
       </el-table-column>
       <el-table-column
           label="操作"
-        
           width="180">
         <template slot-scope="scope">
             <el-button @click="kickUser(scope.row.username)" v-if="scope.row.active != '0'" type="danger" icon="el-icon-delete" circle size="small"></el-button>

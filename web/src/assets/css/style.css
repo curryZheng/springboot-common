@@ -3,12 +3,14 @@
     margin: 0;
     outline: none;
     box-sizing: border-box;
+    font-size: 10px !important;
 }
 body{
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+   
 }
 a {
-    color: #3c8dbc;
+    color: #9c9d9e;
     text-decoration: none;
 }
 
@@ -36,13 +38,33 @@ a {
 }
 
 .el-menu .fa:not(.is-children) {
-    font-size: 14px;
+    font-size: 10px;
 }
 .gray-mode{
     filter: grayscale(100%);
 }
+.el-table {
+    font-size: 10px !important;
+}
+.content{
+    background-color:  #fff;
+    border-top: 2px solid  #367fa9;
 
-
+}
+.el-pagination {
+    white-space: nowrap;
+    padding: 10px 5px ;
+    color: #303133;
+    font-weight: 700;
+}
+.el-dialog__title {
+    font-size: 16px !important;
+    color: #3C8DBC !important;
+    font-weight:bold !important;
+}
+.el-table thead {
+    color: #367fa9 !important; 
+}
 .fade-enter-active, .fade-leave-active {
     transition: opacity .2s ease-in-out;
 }

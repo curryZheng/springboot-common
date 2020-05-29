@@ -1,7 +1,7 @@
 <template>
   <div class="user-list">
     <ToolBar>
-      <el-button type="primary" icon="el-icon-plus" size="small" @click="editUser(false)">添加</el-button>
+      <el-button type="primary" icon="el-icon-plus" size="small">添加</el-button>
       <div style="float: right">
         <el-input
             placeholder="请输入用户昵称！"
@@ -14,6 +14,8 @@
         <el-button @click="searchAuthDta" type="success" icon="el-icon-search" size="small"></el-button>
       </div>
     </ToolBar>
+  
+  <div class='content'> 
      <el-table
       :data="authData"
       style="width: 100%;margin-bottom: 20px;"
@@ -39,9 +41,9 @@
           prop="opUserName"
           label="操作人">
         </el-table-column>
-  
     </el-table>
   </div>
+</div>
 </template>
 
 <script>

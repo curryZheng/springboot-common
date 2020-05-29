@@ -28,11 +28,12 @@ axios.interceptors.response.use(res => {
   const status = Number(res.status) || 200
   if (status !== 200) {
     Message({
-        message: status,
+      message: status,
       type: 'error'
     })
     return Promise.reject(new Error(res.data))
   }
+  console.log("res.data.code"+res.data.code)
   const code = Number(res.data.code) || 0
   if (code !== 0) {
     Message({

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import store from './store'
 import ElementUI from 'element-ui'
 import './theme/index.css'
-
-
+import './assets/css/font-awesome.min.css'
+import './assets/css/style.css'
 import router from './router'
 import Config from './config'
 import Function from './function'
